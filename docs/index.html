@@ -11,7 +11,8 @@
       --goldStroke:#7a4a00;
       --bandA:rgba(255,224,158,.92);
       --bandB:rgba(255,255,255,.70);
-      --gold:#b88b2b;
+      /* ↑↑ Ajusta este valor para subir/bajar todo el bloque en móvil */
+      --lift: clamp(-42px, -8vh, -84px);
     }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;background:#f3f5fa;font-family:"Playfair Display",serif}
@@ -23,18 +24,25 @@
         calc(12px + env(safe-area-inset-right))
         calc(12px + env(safe-area-inset-bottom))
         calc(12px + env(safe-area-inset-left));
-      display:grid;place-items:center;
+      display:grid; place-items:start center;   /* ⬅️ anclar arriba en móvil */
     }
 
     .card{
-      width:100%;max-width:560px;background:#fff;overflow:hidden;border-radius:16px;
+      width:100%; max-width:560px; background:#fff; overflow:hidden; border-radius:16px;
       box-shadow:0 14px 36px rgba(0,0,0,.18);
+      transform: translateY(var(--lift));      /* ⬅️ subir bloque */
+    }
+
+    /* En pantallas más grandes, centramos y quitamos el lift */
+    @media (min-width:600px){
+      .page{ place-items:center }
+      .card{ transform:none }
     }
 
     .hero{position:relative}
     .hero img{display:block;width:100%;height:auto}
 
-    /* overlay amplio para asegurar lectura */
+    /* overlay amplio para asegurar lectura del texto */
     .overlay{
       position:absolute;left:0;right:0;bottom:0;height:60%;
       background:linear-gradient(180deg,rgba(255,255,255,0) 0%,
@@ -44,7 +52,7 @@
     }
 
     .dedicatoria{
-      position:absolute;left:50%;transform:translateX(-50%);
+      position:absolute; left:50%; transform:translateX(-50%);
       bottom:clamp(14px,5vw,28px);
       width:min(94%,520px);
       background:#fffffff0; backdrop-filter:blur(10px);
@@ -52,7 +60,6 @@
       padding:clamp(14px,4.8vw,22px) clamp(16px,6vw,26px);
       text-align:center;
       box-shadow:0 12px 30px rgba(0,0,0,.22),0 0 0 1px #ffffffaa inset;
-      animation:fadeIn .6s ease both;
     }
 
     .title-band{
@@ -61,8 +68,7 @@
       box-shadow:0 2px 6px rgba(0,0,0,.08) inset, 0 2px 6px rgba(0,0,0,.08);
     }
     .tit{
-      margin:0;
-      font-family:"Great Vibes",cursive;
+      margin:0; font-family:"Great Vibes",cursive;
       font-size:clamp(30px,8.4vw,46px);
       line-height:1.05; letter-spacing:.4px; white-space:nowrap;
       background:linear-gradient(180deg,#ffd36b 0%,#ffbe3f 55%,#8a4b00 100%);
@@ -72,31 +78,10 @@
     }
 
     .rule{display:flex;align-items:center;gap:10px;justify-content:center;margin:10px 0 12px}
-    .rule::before,.rule::after{
-      content:"";display:block;height:1.5px;width:32%;
-      background:linear-gradient(90deg,transparent,#d7b25a 40%,#b88b2b 100%);
-    }
+    .rule::before,.rule::after{content:"";height:1.5px;width:32%;background:linear-gradient(90deg,transparent,#d7b25a 40%,#b88b2b 100%)}
 
-    .msg{
-      margin:0;color:var(--ink);font-style:italic;
-      font-size:clamp(16px,4.6vw,19px); line-height:1.65; letter-spacing:.2px;
-      text-wrap:balance; word-break:keep-all;
-    }
-    .sig{
-      margin-top:clamp(6px,1.6vw,10px);
-      color:var(--gold); font-weight:600; font-variant:small-caps;
-      font-size:clamp(13px,3.8vw,16px); letter-spacing:.06em
-    }
-
-    .actions{margin-top:10px;display:flex;justify-content:center}
-    .btn{
-      border:0;border-radius:12px;padding:10px 14px;font-weight:600;cursor:pointer;
-      background:linear-gradient(180deg,#ffe08a,#ffd166); color:#5e3a00;
-      box-shadow:0 6px 16px rgba(0,0,0,.12);
-      font-size:clamp(13px,3.6vw,15px);
-    }
-
-    @keyframes fadeIn{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+    .msg{margin:0;color:var(--ink);font-style:italic;font-size:clamp(16px,4.6vw,19px);line-height:1.65;letter-spacing:.2px;text-wrap:balance}
+    .sig{margin-top:clamp(6px,1.6vw,10px);color:#b88b2b;font-weight:600;font-variant:small-caps;font-size:clamp(13px,3.8vw,16px);letter-spacing:.06em}
   </style>
 </head>
 <body>
@@ -111,34 +96,9 @@
           <div class="rule">🌻</div>
           <p class="msg">Que cada pétalo te recuerde lo especial que eres. 💛</p>
           <div class="sig">Con cariño, Climer Cadillo</div>
-
-          <div class="actions">
-            <button class="btn" id="share">Compartir</button>
-          </div>
         </div>
       </div>
     </section>
   </main>
-
-  <script>
-    // Compartir: Web Share API (móvil). Fallback: copiar link.
-    const btn = document.getElementById('share');
-    btn.addEventListener('click', async () => {
-      const text = 'Para Sheyla Pineda — Que cada pétalo te recuerde lo especial que eres. 💛';
-      const url = location.href;
-      if (navigator.share) {
-        try { await navigator.share({ title: document.title, text, url }); }
-        catch(e){ /* usuario canceló */ }
-      } else {
-        try {
-          await navigator.clipboard.writeText(url);
-          btn.textContent = '¡Enlace copiado!';
-          setTimeout(()=>btn.textContent='Compartir',1500);
-        } catch {
-          alert('Copia este enlace: ' + url);
-        }
-      }
-    });
-  </script>
 </body>
 </html>
