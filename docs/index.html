@@ -8,133 +8,91 @@
   <style>
     :root{
       --ink:#2b2b2b;
-      --shade: rgba(0,0,0,.22);
-      --band-start: rgba(255,224,158,.92);
-      --band-end: rgba(255,255,255,.65);
-      --gold-stroke:#7a4a00;
+      --goldStroke:#7a4a00;
+      --bandA:rgba(255,224,158,.92);
+      --bandB:rgba(255,255,255,.70);
     }
     *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:#f3f5fa;font-family:"Playfair Display",serif}
 
-    html, body {
-      height: 100%;
-      margin: 0;
-      background: #f6f7fb;
-      font-family: "Playfair Display", serif;
-    }
-
-    /* Página móvil: usa toda la pantalla y respeta las safe areas */
-    .page {
-      min-height: 100dvh;
+    /* Lienzo móvil con safe areas */
+    .page{
+      min-height:100dvh;
       padding:
         calc(8px + env(safe-area-inset-top))
         calc(12px + env(safe-area-inset-right))
         calc(12px + env(safe-area-inset-bottom))
         calc(12px + env(safe-area-inset-left));
-      display: grid;
-      place-items: center;
+      display:grid;place-items:center;
     }
 
-    /* Card full-bleed en móviles, con esquinas a partir de 480px */
+    /* Tarjeta full-bleed en móvil */
     .card{
-      width: 100%;
-      max-width: 560px;          /* límite agradable en móviles grandes */
-      background: #fff;
-      border-radius: 0;
-      box-shadow: 0 16px 40px var(--shade);
-      overflow: hidden;
-    }
-    @media (min-width:480px){
-      .card{ border-radius: 18px; }
+      width:100%;max-width:560px;background:#fff;overflow:hidden;border-radius:16px;
+      box-shadow:0 14px 36px rgba(0,0,0,.18);
     }
 
-    .hero{ position:relative; }
-    .hero img{
-      display:block;
-      width:100%;
-      height:auto;               /* imagen cuadrada: se adapta perfecto */
-    }
+    .hero{position:relative}
+    .hero img{display:block;width:100%;height:auto}
 
-    /* Overlay inferior para asegurar lectura del texto en la foto */
-    .fade-bottom{
-      position:absolute; left:0; right:0; bottom:0;
-      height: 42%;
-      background: linear-gradient(180deg, rgba(255,255,255,0) 0%,
-                                           rgba(255,255,255,.85) 40%,
-                                           rgba(255,255,255,.96) 100%);
+    /* Overlay que CUBRE de verdad la zona inferior */
+    .overlay{
+      position:absolute;left:0;right:0;bottom:0;height:58%;
+      background:linear-gradient(180deg,rgba(255,255,255,0) 0%,
+                                         rgba(255,255,255,.85) 35%,
+                                         rgba(255,255,255,.98) 100%);
       pointer-events:none;
     }
 
-    /* Bloque de dedicatoria: más grande y centrado */
+    /* Bloque de dedicatoria más grande y abajo */
     .dedicatoria{
-      position:absolute;
-      left:50%;
-      bottom: clamp(56px, 15vw, 100px);  /* sube en móviles chicos */
-      transform: translateX(-50%);
-      width: min(92%, 520px);
-      background: #ffffffeb;
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: clamp(14px, 4.2vw, 22px) clamp(16px, 5vw, 26px);
-      text-align: center;
-      box-shadow: 0 12px 32px rgba(0,0,0,.25), 0 0 0 1px #ffffffaa inset;
-      animation: fadeInUp .9s ease both;
+      position:absolute;left:50%;transform:translateX(-50%);
+      bottom:clamp(14px,4.5vw,26px);
+      width:min(94%,520px);
+      background:#fffffff0; backdrop-filter:blur(10px);
+      border-radius:16px; padding:clamp(14px,4.6vw,22px) clamp(16px,5.4vw,26px);
+      text-align:center; box-shadow:0 12px 30px rgba(0,0,0,.22),0 0 0 1px #ffffffaa inset;
+      animation:fadeIn .6s ease both;
     }
 
-    /* Banda de contraste para el título (pequeña en móvil) */
+    /* Banda de contraste del título */
     .title-band{
-      display:inline-block;
-      padding: 4px 12px;
-      border-radius: 12px;
-      background: linear-gradient(90deg, var(--band-start), var(--band-end));
-      box-shadow: 0 2px 6px rgba(0,0,0,.10) inset, 0 2px 6px rgba(0,0,0,.08);
+      display:inline-block;padding:4px 12px;border-radius:12px;
+      background:linear-gradient(90deg,var(--bandA),var(--bandB));
+      box-shadow:0 2px 6px rgba(0,0,0,.08) inset, 0 2px 6px rgba(0,0,0,.08);
+      margin-bottom:6px;
     }
 
     /* Título elegante y legible en pantallas pequeñas */
     .tit{
       margin:0;
-      font-family:"Great Vibes", cursive;
-      font-size: clamp(28px, 8vw, 44px);
-      line-height: 1.05;
-      background: linear-gradient(180deg,#ffd36b 0%, #ffbe3f 55%, #8a4b00 100%);
-      -webkit-background-clip:text; background-clip:text;
-      color: transparent;
-      -webkit-text-stroke: 0.8px var(--gold-stroke);
-      text-shadow: 0 1px 0 #fff, 0 3px 10px rgba(0,0,0,.25);
-      letter-spacing: .5px;
-      white-space: nowrap;
+      font-family:"Great Vibes",cursive;
+      font-size:clamp(28px,8vw,44px);
+      line-height:1.05; letter-spacing:.4px; white-space:nowrap;
+      background:linear-gradient(180deg,#ffd36b 0%,#ffbe3f 55%,#8a4b00 100%);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+      -webkit-text-stroke:.8px var(--goldStroke);
+      text-shadow:0 1px 0 #fff,0 3px 10px rgba(0,0,0,.25);
     }
 
-    .orn{ position:relative; width:100%; height:18px; margin:8px auto 10px; display:grid; place-items:center; color:#d69b1e; font-size:16px }
-    .orn::before,.orn::after{
-      content:""; position:absolute; top:50%; width:40%; height:1.5px;
-      background: linear-gradient(90deg, transparent, #d7b25a 40%, #b88b2b 100%)
-    }
-    .orn::before{ left:0 } .orn::after{ right:0; transform: scaleX(-1) }
+    .orn{position:relative;width:100%;height:16px;margin:8px auto 10px;display:grid;place-items:center;color:#d69b1e;font-size:15px}
+    .orn::before,.orn::after{content:"";position:absolute;top:50%;width:40%;height:1.4px;background:linear-gradient(90deg,transparent,#d7b25a 40%,#b88b2b 100%)}
+    .orn::before{left:0}.orn::after{right:0;transform:scaleX(-1)}
 
     .msg{
-      margin:0;
-      font-style: italic;
-      font-size: clamp(15px, 4.2vw, 18px);
-      line-height: 1.6;
-      color: var(--ink);
-      letter-spacing: .2px;
-      text-wrap: balance;
-      word-break: keep-all;
-      hyphens: auto;
+      margin:0;color:var(--ink);font-style:italic;
+      font-size:clamp(15px,4.4vw,18px); line-height:1.6; letter-spacing:.2px;
+      text-wrap:balance; word-break:keep-all;
     }
-    .sig{
-      margin-top: clamp(6px, 1.6vw, 10px);
-      font-variant: small-caps;
-      letter-spacing: .08em;
-      font-weight: 600;
-      color: #b88b2b;
-      font-size: clamp(13px, 3.8vw, 16px);
-    }
+    .sig{margin-top:clamp(6px,1.6vw,10px);color:#b88b2b;font-weight:600;font-variant:small-caps;
+      font-size:clamp(13px,3.8vw,16px); letter-spacing:.06em}
 
-    /* Animaciones accesibles */
-    @keyframes fadeInUp{ from{opacity:0; transform:translate(-50%, 10px)} to{opacity:1; transform:translate(-50%, 0)} }
-    @media (prefers-reduced-motion: reduce){
-      .dedicatoria{ animation: none }
+    @keyframes fadeIn{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+
+    /* Ajustes extra en pantallas muy pequeñas */
+    @media (max-width:360px){
+      .overlay{height:62%}
+      .title-band{padding:3px 10px}
     }
   </style>
 </head>
@@ -143,7 +101,7 @@
     <section class="card" aria-label="Tarjeta con ramo y dedicatoria">
       <div class="hero">
         <img src="https://i.ibb.co/1G4ssdV1/ramo-de-10-girasoles-768x768.png" alt="Ramo de girasoles">
-        <div class="fade-bottom" aria-hidden="true"></div>
+        <div class="overlay" aria-hidden="true"></div>
 
         <div class="dedicatoria">
           <div class="title-band"><h1 class="tit">Para Sheyla Pineda</h1></div>
