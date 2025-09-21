@@ -14,7 +14,12 @@
       --gold:#b88b2b;
     }
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:#f3f5fa;font-family:"Playfair Display",serif}
+    html{
+      height:100%;
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+    }
+    body{height:100%;margin:0;background:#f3f5fa;font-family:"Playfair Display",serif}
 
     .page{
       min-height:100dvh;
@@ -26,10 +31,10 @@
       display:grid;place-items:center;
     }
 
-    /* Mismo ancho para ambas vistas (se adapta pero mantiene proporciones) */
+    /* Lienzo igual en laptop y móvil */
     .card{
       width:100%;
-      max-width:720px;           /* mismo “lienzo” que en laptop */
+      max-width:720px;
       background:#fff;
       overflow:hidden;
       border-radius:18px;
@@ -39,7 +44,6 @@
     .hero{position:relative}
     .hero img{display:block;width:100%;height:auto}
 
-    /* Overlay que asegura contraste del texto */
     .overlay{
       position:absolute;left:0;right:0;bottom:0;height:60%;
       background:linear-gradient(180deg,rgba(255,255,255,0) 0%,
@@ -48,11 +52,10 @@
       pointer-events:none;
     }
 
-    /* TARJETA: mismos tamaños relativos en móvil y laptop */
     .dedicatoria{
       position:absolute;left:50%;transform:translateX(-50%);
-      bottom:30px;                           /* misma separación del borde inferior */
-      width:86%;                              /* ancho visual como en laptop */
+      bottom:30px;
+      width:86%;
       background:#fffffff0;backdrop-filter:blur(10px);
       border-radius:18px;
       padding:20px 24px;
@@ -60,16 +63,23 @@
       box-shadow:0 16px 38px rgba(0,0,0,.22),0 0 0 1px #ffffffaa inset;
     }
 
+    /* Banda dorada que se ADAPTA y permite salto de línea */
     .title-band{
-      display:inline-block;padding:6px 16px;border-radius:14px;
+      display:inline-flex;      /* evita desbordes */
+      max-width:100%;
+      padding:6px 14px;
+      border-radius:14px;
       background:linear-gradient(90deg,var(--bandA),var(--bandB));
       box-shadow:0 2px 6px rgba(0,0,0,.08) inset, 0 2px 6px rgba(0,0,0,.08);
+      align-items:center; justify-content:center; flex-wrap:wrap;
     }
     .tit{
       margin:0;
       font-family:"Great Vibes",cursive;
-      font-size:46px;             /* fija para que se vea igual en móvil */
-      line-height:1.05; letter-spacing:.4px; white-space:nowrap;
+      font-size:46px;                 /* mismo look que en laptop */
+      line-height:1.08;
+      letter-spacing:.4px;
+      white-space:normal;             /* 👈 permite salto de línea */
       background:linear-gradient(180deg,#ffd36b 0%,#ffbe3f 55%,#8a4b00 100%);
       -webkit-background-clip:text;background-clip:text;color:transparent;
       -webkit-text-stroke:1px var(--goldStroke);
@@ -79,24 +89,21 @@
     .rule{display:flex;align-items:center;gap:10px;justify-content:center;margin:12px 0}
     .rule::before,.rule::after{content:"";height:1.5px;width:34%;background:linear-gradient(90deg,transparent,#d7b25a 40%,#b88b2b 100%)}
 
-    .msg{
-      margin:0;color:var(--ink);
-      font-style:italic;
-      font-size:20px;             /* fija para mantener el look */
-      line-height:1.65; letter-spacing:.2px;
-      text-wrap:balance;
-    }
-    .sig{
-      margin-top:10px; color:var(--gold);
-      font-weight:600; font-variant:small-caps;
-      font-size:16px; letter-spacing:.06em;
-    }
+    .msg{margin:0;color:var(--ink);font-style:italic;font-size:20px;line-height:1.65;letter-spacing:.2px;text-wrap:balance}
+    .sig{margin-top:10px;color:var(--gold);font-weight:600;font-variant:small-caps;font-size:16px;letter-spacing:.06em}
 
-    /* En pantallas MUY chicas, mantenemos la misma estética ajustando mínimos */
-    @media (max-width:360px){
-      .dedicatoria{width:90%; padding:18px}
-      .tit{font-size:42px}
+    /* ----- Ajuste específico para pantallas angostas ----- */
+    @media (max-width:420px){
+      .dedicatoria{width:92%; padding:18px 16px; bottom:22px}
+      .title-band{padding:6px 10px}
+      .tit{font-size:40px; -webkit-text-stroke:.8px var(--goldStroke); letter-spacing:.2px}
+      .rule::before,.rule::after{width:30%}
       .msg{font-size:18px}
+      .sig{font-size:15px}
+    }
+    @media (max-width:360px){
+      .tit{font-size:36px; -webkit-text-stroke:.6px var(--goldStroke)}
+      .msg{font-size:17px}
     }
   </style>
 </head>
