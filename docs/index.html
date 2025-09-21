@@ -1,35 +1,76 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Flor Elegante</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ramo de Girasoles • Dedicatoria</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root{ --ink:#2b2b2b; --shadow:rgba(0,0,0,.22); }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{display:flex;align-items:center;justify-content:center;background:#f6f7fb;font-family:"Playfair Display",serif;padding:24px}
+    .card{position:relative;width:min(920px,92vw);background:#fff;border-radius:24px;box-shadow:0 16px 40px var(--shadow);padding:28px}
+    .hero{position:relative;border-radius:18px;overflow:hidden}
+    .hero img{display:block;width:100%;height:auto}
+
+    .dedicatoria{
+      position:absolute;left:50%;bottom:100px;transform:translateX(-50%);
+      width:min(560px,88%);text-align:center;
+      background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+      padding:26px 28px;border-radius:20px;
+      box-shadow:0 16px 36px rgba(0,0,0,.25),0 0 0 1px #ffffffaa inset;
+      animation:fadeInUp 1s ease both;
+    }
+
+    /* BANDA para asegurar contraste del título */
+    .title-band{
+      display:inline-block;
+      padding:4px 14px;
+      border-radius:12px;
+      background:linear-gradient(90deg,rgba(255,224,158,.85),rgba(255,255,255,.65));
+      box-shadow:0 2px 8px rgba(0,0,0,.12) inset, 0 2px 8px rgba(0,0,0,.08);
+    }
+
+    /* Título: degradado dorado + contorno y sombra */
+    .tit{
+      margin:0;
+      font-family:"Great Vibes",cursive;
+      font-size:clamp(40px,5vw,58px);
+      line-height:1;
+      background:linear-gradient(180deg,#ffd36b 0%, #ffbe3f 55%, #8a4b00 100%);
+      -webkit-background-clip:text;background-clip:text;
+      color:transparent;
+      -webkit-text-stroke:1px #7a4a00;
+      text-shadow:0 1px 0 #fff, 0 3px 10px rgba(0,0,0,.25);
+      letter-spacing:.6px; white-space:nowrap;
+    }
+
+    .orn{position:relative;width:100%;height:20px;margin:10px auto 14px;display:grid;place-items:center;color:#d69b1e;font-size:18px}
+    .orn::before,.orn::after{content:"";position:absolute;top:50%;width:42%;height:1.5px;background:linear-gradient(90deg,transparent,#d7b25a 40%,#b88b2b 100%)}
+    .orn::before{left:0}.orn::after{right:0;transform:scaleX(-1)}
+    .orn span{filter:drop-shadow(0 1px 0 #fff)}
+
+    .msg{margin:0 0 12px;font-style:italic;font-size:clamp(18px,2.6vw,24px);line-height:1.65;color:var(--ink);letter-spacing:.2px}
+    .msg::before{content:"“";margin-right:2px;color:#d69b1e;font-size:1.2em}
+    .msg::after{content:"”";margin-left:2px;color:#d69b1e;font-size:1.2em}
+    .sig{margin:6px 0 0;font-variant:small-caps;letter-spacing:.08em;font-weight:600;color:#b88b2b;font-size:clamp(16px,2.2vw,20px)}
+
+    @keyframes fadeInUp{from{opacity:0;transform:translate(-50%,18px)} to{opacity:1;transform:translate(-50%,0)}}
+  </style>
 </head>
 <body>
+  <div class="card">
+    <div class="hero">
+      <img src="https://i.ibb.co/1G4ssdV1/ramo-de-10-girasoles-768x768.png" alt="Ramo de girasoles">
 
-<div class="flower">
-    <div class="text-above">💛 De Climer Cadillo 💛</div>
-    <div class="mid"></div>
-
-    <div class="Petal1 p1"></div>
-    <div class="Petal1 p2"></div>
-    <div class="Petal1 p3"></div>
-    <div class="Petal1 p4"></div>
-
-    <div class="Petal2 p1"></div>
-    <div class="Petal2 p2"></div>
-    <div class="Petal2 p3"></div>
-    <div class="Petal2 p4"></div>
-
-    <div class="Petal3 p1"></div>
-    <div class="Petal3 p2"></div>
-    <div class="Petal3 p3"></div>
-    <div class="Petal3 p4"></div>
-
-    <div class="text-below">🌻 Para Sheyla Pineda 🌻</div>
-</div>
-
+      <div class="dedicatoria">
+        <div class="title-band"><h1 class="tit">Para Sheyla Pineda</h1></div>
+        <div class="orn"><span>🌻</span></div>
+        <p class="msg">Que cada pétalo te recuerde lo especial que eres. 💛</p>
+        <div class="sig">Con Cariño De Climer Cadillo</div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
